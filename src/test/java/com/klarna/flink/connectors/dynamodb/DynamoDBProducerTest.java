@@ -1,5 +1,6 @@
 package com.klarna.flink.connectors.dynamodb;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ListenableFuture;
 import org.apache.flink.api.java.functions.KeySelector;
 import org.junit.Test;
@@ -10,18 +11,12 @@ import software.amazon.awssdk.services.dynamodb.model.WriteRequest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertNotSame;
-import static junit.framework.TestCase.assertSame;
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.*;
 
 public class DynamoDBProducerTest {
 
@@ -108,14 +103,14 @@ public class DynamoDBProducerTest {
                         25);
         ListenableFuture<BatchResponse> f0 = producer.add(new DynamoDBWriteRequest("YY", WriteRequest.builder()
                 .putRequest(PutRequest.builder()
-                        .item(Map.of("key", AttributeValue.builder()
+                        .item(ImmutableMap.of("key", AttributeValue.builder()
                                 .s("0")
                                 .build()))
                         .build())
                 .build()));
         ListenableFuture<BatchResponse> f1 = producer.add(new DynamoDBWriteRequest("YY", WriteRequest.builder()
                 .putRequest(PutRequest.builder()
-                        .item(Map.of("key", AttributeValue.builder()
+                        .item(ImmutableMap.of("key", AttributeValue.builder()
                                 .s("1")
                                 .build()))
                         .build())
@@ -124,7 +119,7 @@ public class DynamoDBProducerTest {
         assertSame(f0, f1);
         ListenableFuture<BatchResponse> f2 = producer.add(new DynamoDBWriteRequest("YY", WriteRequest.builder()
                 .putRequest(PutRequest.builder()
-                        .item(Map.of("key", AttributeValue.builder()
+                        .item(ImmutableMap.of("key", AttributeValue.builder()
                                 .s("1")
                                 .build()))
                         .build())

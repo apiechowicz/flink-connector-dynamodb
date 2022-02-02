@@ -147,7 +147,7 @@ public class FlinkDynamoDBSink<IN> extends RichSinkFunction<IN> implements Check
         this.backpressureCycles = dynamoDBSinkMetricGroup.counter(METRIC_BACKPRESSURE_CYCLES);
         dynamoDBSinkMetricGroup.gauge(
                 METRIC_OUTSTANDING_RECORDS_COUNT, producer::getOutstandingRecordsCount);
-        callback = new FutureCallback<>() {
+        callback = new FutureCallback<BatchResponse>() {
             @Override
             public void onSuccess(BatchResponse result) {
                 backpressureLatch.trigger();
